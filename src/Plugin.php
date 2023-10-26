@@ -18,6 +18,7 @@ use craft\services\Utilities;
 use craft\models\CategoryGroup;
 use craft\models\FieldLayoutTab;
 use craft\web\twig\variables\Cp;
+use craft\services\UserPermissions;
 use craft\base\Plugin as BasePlugin;
 use craft\events\DefineBehaviorsEvent;
 use craft\events\RegisterUrlRulesEvent;
@@ -28,6 +29,7 @@ use craft\web\twig\variables\CraftVariable;
 use craft\models\CategoryGroup_SiteSettings;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\DefineFieldLayoutFieldsEvent;
+use craft\events\RegisterUserPermissionsEvent;
 use boxhead\craftchurchsuiteevents\models\Settings;
 use boxhead\craftchurchsuiteevents\services\SyncService;
 use boxhead\craftchurchsuiteevents\utilities\SyncUtility;
@@ -163,6 +165,25 @@ class Plugin extends BasePlugin
                 CraftVariableBehavior::class,
             ]);
         });
+
+        // Register User Permissions
+        Event::on(
+            UserPermissions::class,
+            UserPermissions::EVENT_REGISTER_PERMISSIONS,
+            function (RegisterUserPermissionsEvent $event) {
+                $event->permissions[] = [
+                    'heading' => 'ChurchSuite Events',
+                    'permissions' => [
+                        'editChurchSuiteEvents' => [
+                            'label' => 'Can Edit Events',
+                        ],
+                        'deleteChurchSuiteEvents' => [
+                            'label' => 'Can Delete Events',
+                        ],
+                    ],
+                ];
+            }
+        );
 
         // ChurchSuite Event Element Garbage Collection
         Event::on(Gc::class, Gc::EVENT_RUN, function (Event $event) {

@@ -254,7 +254,7 @@ class ChurchSuiteEvent extends Element
             return true;
         }
         // todo: implement user permissions
-        return $user->can('viewChurchSuiteEvents');
+        return $user->can('editChurchSuiteEvents');
     }
 
     public function canSave(User $user): bool
@@ -263,7 +263,7 @@ class ChurchSuiteEvent extends Element
             return true;
         }
         // todo: implement user permissions
-        return $user->can('saveChurchSuiteEvents');
+        return $user->can('editChurchSuiteEvents');
     }
 
     public function canDuplicate(User $user): bool
@@ -272,7 +272,7 @@ class ChurchSuiteEvent extends Element
             return true;
         }
         // todo: implement user permissions
-        return $user->can('saveChurchSuiteEvents');
+        return $user->can('editChurchSuiteEvents');
     }
 
     public function canDelete(User $user): bool
