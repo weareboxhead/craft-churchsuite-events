@@ -1,0 +1,47 @@
+{
+    "name": "boxhead/craft-churchsuite-events",
+    "description": "Sync ChurchSuite Events into Craft as native elements.",
+    "type": "craft-plugin",
+    "license": "proprietary",
+    "support": {
+        "email": "matt@boxhead.io",
+        "issues": "https://github.com/weareboxhead/craft-churchsuite-events/issues?state=open",
+        "source": "https://github.com/weareboxhead/craft-churchsuite-events",
+        "docs": "https://github.com/weareboxhead/craft-churchsuite-events",
+        "rss": "https://github.com/weareboxhead/craft-churchsuite-events/releases.atom"
+    },
+    "require": {
+        "php": ">=8.0.2",
+        "craftcms/cms": "^4.5.0"
+    },
+    "require-dev": {
+        "craftcms/ecs": "dev-main",
+        "craftcms/phpstan": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "boxhead\\craftchurchsuiteevents\\": "src/"
+        }
+    },
+    "extra": {
+        "handle": "churchsuite-events",
+        "name": "ChurchSuite Events",
+        "developer": "Boxhead",
+        "documentationUrl": "https://github.com/weareboxhead/craft-churchsuite-events"
+    },
+    "scripts": {
+        "check-cs": "ecs check --ansi",
+        "fix-cs": "ecs check --ansi --fix",
+        "phpstan": "phpstan --memory-limit=1G"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.0.2"
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
+    }
+}

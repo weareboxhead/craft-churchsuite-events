@@ -1,0 +1,46 @@
+{# @var plugin \boxhead\craftchurchsuiteevents\Plugin #}
+{# @var settings \boxhead\craftchurchsuiteevents\models\Settings #}
+
+{% import '_includes/forms.twig' as forms %}
+
+{# ChurchSuite Organisation Handle #}
+{{ forms.textField({
+  first: true,
+  label: 'ChurchSuite Organisation Handle'|t('churchsuite-events'),
+  instructions: 'The organisation handle for your ChurchSuite account. This can be found in the URL when logged in to ChurchSuite.'|t('churchsuite-events'),
+  name: 'churchSuiteOrganisationHandle',
+  value: settings.churchSuiteOrganisationHandle,
+  required: true,
+  errors: settings.getErrors('churchSuiteOrganisationHandle')
+}) }}
+
+{{ forms.lightswitchField({
+  label: 'Set Event Element status to enabled on initial sync'|t('churchsuite-events'),
+  instructions: 'Even updates via subsequent sync processes do not alter the status.'|t('churchsuite-events'),
+  name: 'enableEventsWhenCreated',
+  value: 1,
+  on: settings.enableEventsWhenCreated,
+  errors: settings.getErrors('enableEventsWhenCreated')
+}) }}
+
+{{ forms.textField({
+  label: 'ChurchSuite Category Group Handle'|t('churchsuite-events'),
+  instructions: 'The Craft CMS category group handle for storing ChurchSuite Event categories.'|t('churchsuite-events'),
+  name: 'categoryGroupHandle',
+  value: settings.categoryGroupHandle,
+  required: false,
+  disabled: true,
+  errors: settings.getErrors('categoryGroupHandle')
+}) }}
+
+{{ forms.textField({
+  label: 'ChurchSuite Image Volume Handle'|t('churchsuite-events'),
+  instructions: 'The Craft CMS volume handle for storing ChurchSuite Event images.'|t('churchsuite-events'),
+  name: 'imageVolumeHandle',
+  value: settings.imageVolumeHandle,
+  required: false,
+  disabled: true,
+  errors: settings.getErrors('imageVolumeHandle')
+}) }}
+
+

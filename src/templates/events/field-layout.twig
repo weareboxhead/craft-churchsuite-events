@@ -1,0 +1,20 @@
+{% extends "_layouts/cp.twig" %}
+{% set title = "ChurchSuite Event Field Layout Settings"|t('plugin-handle') %}
+{% set fullPageForm = true %}
+{% set selectedSubnavItem = 'settings' %}
+
+{% import '_includes/forms.twig' as forms %}
+
+{% block content %}
+  {# Have the form submit to a controller action #}
+  {{ actionInput('churchsuite-events/events/save-field-layout') }}
+  
+  {# Have the save action redirect to event index page afterward #}
+  {{ redirectInput('churchsuite-events') }}
+
+  {{ forms.fieldLayoutDesignerField({
+    fieldLayout: craft.app.fields.getLayoutByType(
+      'boxhead\\craftchurchsuiteevents\\elements\\ChurchSuiteEvent'
+    ),
+  }) }}
+{% endblock %}
