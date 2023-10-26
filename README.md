@@ -37,7 +37,7 @@ You may create additional custom fields as your needs require and assign them to
 
 The Sync process pulls in all available events from [ChurchSuite Calendar JSON feed](https://github.com/ChurchSuite/churchsuite-api/blob/master/modules/embed.md#calendar-json-feed) and creates a new Event element for each one. The sync process will also update existing events if they have been changed in ChurchSuite. The sync process will not delete events that have been deleted in ChurchSuite but will set the status to disabled for any missing of historic events.
 
-The sync process can be run manually from the plugin ultities page or can be set to run automatically on a schedule. The sync process can also be run from the command line using the `./craft churchsuite-events/sync` command.
+The sync process can be run manually from the plugin ultities page or can be set to run automatically on a schedule. The sync process can also be run from the command line using the `./craft churchsuite-events/events/sync` command.
 
 ## Twig Templating
 

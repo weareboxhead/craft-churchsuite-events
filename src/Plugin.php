@@ -84,6 +84,11 @@ class Plugin extends BasePlugin
 
         Craft::setAlias('@churchsuite-events', __DIR__);
 
+        $request = Craft::$app->getRequest();
+        if ($request->getIsConsoleRequest()) {
+            $this->controllerNamespace = 'boxhead\craftchurchsuiteevents\console\controllers';
+        }
+
         // Defer most setup tasks until Craft is fully initialized
         Craft::$app->onInit(function () {
             $this->attachEventHandlers();
