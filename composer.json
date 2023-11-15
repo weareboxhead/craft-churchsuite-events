@@ -3,7 +3,7 @@
     "description": "Sync ChurchSuite Events into Craft as native elements.",
     "type": "craft-plugin",
     "license": "proprietary",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "support": {
         "email": "matt@boxhead.io",
         "issues": "https://github.com/weareboxhead/craft-churchsuite-events/issues?state=open",

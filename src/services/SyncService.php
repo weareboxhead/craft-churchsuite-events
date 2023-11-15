@@ -69,10 +69,15 @@ class SyncService extends Component
     {
         Craft::info('ChurchSuiteEvents: Begin sync with JSON endpoint', __METHOD__);
 
+        $startDate = new DateTime('now');
+        $startDate = $startDate->format('Y-m-d');
+        $endDate = new DateTime('now');
+        $endDate = $endDate->modify('+2 years')->format('Y-m-d');
+
         // Get all ChurchSuite events
         $client = new Client();
 
-        $url = 'https://' . $this->settings->churchSuiteOrganisationHandle . '.churchsuite.com/embed/calendar/json';
+        $url = 'https://' . $this->settings->churchSuiteOrganisationHandle . '.churchsuite.com/embed/calendar/json?date_start=' . $startDate . '&date_end=' . $endDate;
 
         $response = $client->request('GET', $url, [
             'headers' => [
