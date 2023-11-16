@@ -28,7 +28,12 @@ class EventsController extends Controller
         $fieldLayout = Craft::$app->getFields()->assembleLayoutFromPost();
         $fieldLayout->type = ChurchSuiteEvent::class;
 
-        Craft::$app->getFields()->saveLayout($fieldLayout);
+        $key = 'churchsuite-events.eventFieldLayout';
+
+        // Craft::$app->getFields()->saveLayout($fieldLayout);
+
+        // Save the field layout changes to project config
+        Craft::$app->getProjectConfig()->set($key, $fieldLayout->getConfig());
 
         return $this->getResponse('Field layout saved.');
     }

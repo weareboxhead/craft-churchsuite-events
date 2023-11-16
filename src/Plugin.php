@@ -4,6 +4,7 @@ namespace boxhead\craftchurchsuiteevents;
 
 use Craft;
 use Exception;
+use craft\db\Query;
 use craft\db\Table;
 use yii\base\Event;
 use craft\base\Field;
@@ -13,6 +14,7 @@ use craft\models\Volume;
 use craft\web\UrlManager;
 use craft\models\FieldGroup;
 use craft\services\Elements;
+use craft\events\ConfigEvent;
 use craft\models\FieldLayout;
 use craft\services\Utilities;
 use craft\models\CategoryGroup;
@@ -87,8 +89,11 @@ class Plugin extends BasePlugin
         // Defer most setup tasks until Craft is fully initialized
         Craft::$app->onInit(function () {
             $this->attachEventHandlers();
-            // ...
         });
+
+        // Handle Project Config updates
+        Craft::$app->getProjectConfig()
+            ->onUpdate('churchsuite-events.eventFieldLayout', [$this, 'handleChangedChurchSuiteEventFieldLayout']);
 
         // Add the Category Group to plugin settings
         $categoryGroup = Craft::$app->getCategories()->getGroupByHandle('churchSuiteEventCategories');
@@ -117,6 +122,26 @@ class Plugin extends BasePlugin
         $item['subnav'] = $subNav;
 
         return $item;
+    }
+
+    public function handleChangedChurchSuiteEventFieldLayout(ConfigEvent $event)
+    {
+        $layout = FieldLayout::createFromConfig($event->newValue);
+
+        // The `type` is not stored in project config:
+        $layout->type = ChurchSuiteEvent::class;
+
+        // Look up and assign the database ID, if it exists:
+        $id = (new Query())
+            ->select(['id'])
+            ->from([Table::FIELDLAYOUTS])
+            ->where(['type' => ChurchSuiteEvent::class])
+            ->scalar();
+
+        // This might be null, but that's OK—just means it's new!
+        $layout->id = $id;
+
+        Craft::$app->getFields()->saveLayout($layout, false);
     }
 
     protected function createSettingsModel(): ?Model
