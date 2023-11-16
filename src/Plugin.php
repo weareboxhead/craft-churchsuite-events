@@ -93,7 +93,9 @@ class Plugin extends BasePlugin
 
         // Handle Project Config updates
         Craft::$app->getProjectConfig()
-            ->onUpdate('churchsuite-events.eventFieldLayout', [$this, 'handleChangedChurchSuiteEventFieldLayout']);
+            ->onAdd('churchsuite-events.eventFieldLayout', [$this, 'handleChangedChurchSuiteEventFieldLayout'])
+            ->onUpdate('churchsuite-events.eventFieldLayout', [$this, 'handleChangedChurchSuiteEventFieldLayout'])
+            ->onRemove('churchsuite-events.eventFieldLayout', [$this, 'handleDeletedChurchSuiteEventFieldLayout']);
 
         // Add the Category Group to plugin settings
         $categoryGroup = Craft::$app->getCategories()->getGroupByHandle('churchSuiteEventCategories');
@@ -142,6 +144,12 @@ class Plugin extends BasePlugin
         $layout->id = $id;
 
         Craft::$app->getFields()->saveLayout($layout, false);
+    }
+
+    public function handleDeletedChurchSuiteEventFieldLayout(ConfigEvent $event)
+    {
+        // There's only one thing to do here—clear any layouts for the element type:
+        Craft::$app->getFields()->deleteLayoutsByType(ChurchSuiteEvent::class);
     }
 
     protected function createSettingsModel(): ?Model
@@ -530,9 +538,13 @@ class Plugin extends BasePlugin
         ]);
 
         $fieldLayout->type = ChurchSuiteEvent::class;
+        $key = 'churchsuite-events.eventFieldLayout';
+
+        // Save the field layout changes to project config
+        Craft::$app->getProjectConfig()->set($key, $fieldLayout->getConfig());
 
         // Save the field layout
-        $fieldsService->saveLayout($fieldLayout);
+        // $fieldsService->saveLayout($fieldLayout);
 
         return true;
     }
