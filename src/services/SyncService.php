@@ -199,10 +199,32 @@ class SyncService extends Component
             $event->endDate = $endDate;
 
             // Custom Fields
-            $event->setFieldValues([
-                'churchSuiteEventCategories' => (isset($apiEvent->category)) ? $this->parseCategory($apiEvent->category) : [],
-                'churchSuiteEventImage' => (isset($apiEvent->images)) ? $this->parseImage($apiEvent->images) : [],
-            ]);
+            if ($isNew) {
+                $event->setFieldValues([
+                    'churchSuiteEventCategories' => (isset($apiEvent->category)) ? $this->parseCategory($apiEvent->category) : [],
+                    'churchSuiteEventImage' => (isset($apiEvent->images)) ? $this->parseImage($apiEvent->images) : [],
+                ]);
+            } else {
+                $updatingFields = [];
+
+                // Do any categories already exist for this entry?
+                $existingCategories = $event->churchSuiteEventCategories->ids();
+
+                // If no existing categories exist, see if there are any now set in the API data
+                if (!$existingCategories) {
+                    $updatingFields['churchSuiteEventCategories'] = (isset($apiEvent->category)) ? $this->parseCategory($apiEvent->category) : [];
+                }
+
+                // Do any images already exist for this entry?
+                $existingImages = $event->churchSuiteEventImage->ids();
+
+                // If no existing images exist, see if there are any now set in the API data
+                if (!$existingImages) {
+                    $updatingFields['churchSuiteEventImage'] = (isset($apiEvent->images)) ? $this->parseImage($apiEvent->images) : [];
+                }
+
+                $event->setFieldValues($updatingFields);
+            }
 
             // Save the event!
             $success = $elementsService->saveElement($event);
