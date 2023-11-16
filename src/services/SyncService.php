@@ -283,12 +283,14 @@ class SyncService extends Component
         $asset->avoidFilenameConflicts = false;
         $asset->setScenario(Asset::SCENARIO_CREATE);
 
-        if (!$elementsService->saveElement($asset)) {
-            // Asset couldn't be saved for whatever reason
+        try {
+            $elementsService->saveElement($asset);
+
+            return [$asset->id];
+        } catch (Throwable $e) {
+            Craft::error('ChurchSuiteEvents: Couldn\'t save the image "' . $filename . '"', __METHOD__);
             return [];
         }
-
-        return [$asset->id];
     }
 
     private function parseCategory($apiCategory): mixed
