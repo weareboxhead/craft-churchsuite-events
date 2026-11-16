@@ -97,15 +97,6 @@ class Plugin extends BasePlugin
             ->onUpdate('churchsuite-events.eventFieldLayout', [$this, 'handleChangedChurchSuiteEventFieldLayout'])
             ->onRemove('churchsuite-events.eventFieldLayout', [$this, 'handleDeletedChurchSuiteEventFieldLayout']);
 
-        // Add the Category Group to plugin settings
-        $categoryGroup = Craft::$app->getCategories()->getGroupByHandle('churchSuiteEventCategories');
-
-        if ($categoryGroup) {
-            Craft::$app->getPlugins()->savePluginSettings($this, [
-                'categoryGroupHandle' => $categoryGroup->handle,
-                'imageVolumeHandle' => 'churchSuiteEventImages'
-            ]);
-        }
     }
 
     public function getCpNavItem(): ?array

@@ -11,8 +11,8 @@ use craft\base\Model;
 class Settings extends Model
 {
     public $churchSuiteOrganisationHandle = '';
-    public $categoryGroupHandle = '';
-    public $imageVolumeHandle = '';
+    public $categoryGroupHandle = 'churchSuiteEventCategories';
+    public $imageVolumeHandle = 'churchSuiteEventImages';
     public $enableEventsWhenCreated = true;
 
     public function defineRules(): array

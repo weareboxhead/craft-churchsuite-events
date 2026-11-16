@@ -33,6 +33,16 @@ The installation process will generate a number of custom fields, a filesystem a
 
 You may create additional custom fields as your needs require and assign them to the ChurchSuiteEvent element field layout within the settings.
 
+### Environment variables
+
+In the plugin settings, start typing `$` in the ChurchSuite Organisation Handle field and select an environment variable from Craft's suggestions. The selected `$VARIABLE_NAME` reference is saved as the setting, then resolved when the plugin syncs events. Define that variable in your `.env` file or hosting environment, for example:
+
+```dotenv
+CHURCHSUITE_ORGANISATION_HANDLE=abcd
+```
+
+You can also enter the organisation handle directly instead of selecting an environment variable.
+
 ## Using churchsuite-events
 
 The Sync process pulls in all available events from [ChurchSuite Calendar JSON feed](https://github.com/ChurchSuite/churchsuite-api/blob/master/modules/embed.md#calendar-json-feed) and creates a new Event element for each one. The sync process will also update existing events if they have been changed in ChurchSuite. The sync process will not delete events that have been deleted in ChurchSuite but will set the status to disabled for any missing of historic events.

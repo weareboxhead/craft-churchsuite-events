@@ -11,6 +11,7 @@ use yii\base\Component;
 use craft\elements\Asset;
 use craft\helpers\Assets;
 use craft\elements\Category;
+use craft\helpers\App;
 use craft\helpers\FileHelper;
 use craft\helpers\DateTimeHelper;
 use boxhead\craftchurchsuiteevents\Plugin;
@@ -77,7 +78,9 @@ class SyncService extends Component
         // Get all ChurchSuite events
         $client = new Client();
 
-        $url = 'https://' . $this->settings->churchSuiteOrganisationHandle . '.churchsuite.com/embed/calendar/json?date_start=' . $startDate . '&date_end=' . $endDate;
+        $organisationHandle = App::parseEnv($this->settings->churchSuiteOrganisationHandle);
+        $url = 'https://' . $organisationHandle . '.churchsuite.com/embed/calendar/json?date_start=' . $startDate .
+            '&date_end=' . $endDate;
 
         $response = $client->request('GET', $url, [
             'headers' => [

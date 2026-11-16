@@ -4,11 +4,12 @@
 {% import '_includes/forms.twig' as forms %}
 
 {# ChurchSuite Organisation Handle #}
-{{ forms.textField({
+{{ forms.autosuggestField({
   first: true,
   label: 'ChurchSuite Organisation Handle'|t('churchsuite-events'),
   instructions: 'The organisation handle for your ChurchSuite account. This can be found in the URL when logged in to ChurchSuite.'|t('churchsuite-events'),
   name: 'churchSuiteOrganisationHandle',
+  suggestEnvVars: true,
   value: settings.churchSuiteOrganisationHandle,
   required: true,
   errors: settings.getErrors('churchSuiteOrganisationHandle')
